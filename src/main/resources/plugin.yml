@@ -1,0 +1,69 @@
+name: AzureAuth
+version: 1.0.0
+description: Secure authentication plugin for AzureMyst server
+author: AzureMyst Development Team
+website: https://azuremyst.ru
+main: net.azuremyst.auth.AzureAuth
+api-version: 1.21
+depend: []
+softdepend: [PlaceholderAPI, LuckPerms, Vault]
+load: STARTUP
+prefix: AzureAuth
+
+commands:
+  login:
+    description: Р’РѕР№С‚Рё РІ РёРіСЂСѓ РёСЃРїРѕР»СЊР·СѓСЏ РїР°СЂРѕР»СЊ
+    usage: /<command> <РїР°СЂРѕР»СЊ>
+    aliases: [l, РІРѕР№С‚Рё]
+    
+  register:
+    description: Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ РЅРѕРІС‹Р№ Р°РєРєР°СѓРЅС‚
+    usage: /<command> <РїР°СЂРѕР»СЊ> [РїРѕРґС‚РІРµСЂРґРёС‚СЊ_РїР°СЂРѕР»СЊ]
+    aliases: [reg, СЂРµРіРёСЃС‚СЂР°С†РёСЏ]
+    
+  logout:
+    description: Р’С‹Р№С‚Рё РёР· Р°РєРєР°СѓРЅС‚Р°
+    usage: /<command>
+    aliases: [РІС‹Р№С‚Рё]
+    
+  changepassword:
+    description: РР·РјРµРЅРёС‚СЊ РїР°СЂРѕР»СЊ Р°РєРєР°СѓРЅС‚Р°
+    usage: /<command> <СЃС‚Р°СЂС‹Р№_РїР°СЂРѕР»СЊ> <РЅРѕРІС‹Р№_РїР°СЂРѕР»СЊ>
+    aliases: [changepass, СЃРјРµРЅР°, СЃРјРµРЅРёС‚СЊРїР°СЂРѕР»СЊ]
+    
+  azureauth:
+    description: РђРґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Рµ РєРѕРјР°РЅРґС‹ AzureAuth
+    usage: /<command> [РїРѕРґРєРѕРјР°РЅРґР°]
+    permission: azureauth.admin
+    aliases: [azauth, aauth]
+
+permissions:
+  azureauth.*:
+    description: Р’СЃРµ РїСЂР°РІР° РїР»Р°РіРёРЅР° AzureAuth
+    children:
+      azureauth.admin: true
+      azureauth.bypass: true
+      
+  azureauth.admin:
+    description: РђРґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Рµ РїСЂР°РІР° РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РїР»Р°РіРёРЅРѕРј
+    default: op
+    
+  azureauth.bypass:
+    description: РћР±С…РѕРґРёС‚СЊ Р°РІС‚РѕСЂРёР·Р°С†РёСЋ (РґР»СЏ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂРѕРІ)
+    default: false
+    
+  azureauth.register:
+    description: РџСЂР°РІРѕ РЅР° СЂРµРіРёСЃС‚СЂР°С†РёСЋ (РµСЃР»Рё РѕС‚РєР»СЋС‡РµРЅР° РіР»РѕР±Р°Р»СЊРЅРѕ)
+    default: true
+    
+  azureauth.login:
+    description: РџСЂР°РІРѕ РЅР° РІС…РѕРґ РІ РёРіСЂСѓ
+    default: true
+    
+  azureauth.changepassword:
+    description: РџСЂР°РІРѕ РЅР° РёР·РјРµРЅРµРЅРёРµ РїР°СЂРѕР»СЏ
+    default: true
+    
+  azureauth.session:
+    description: РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЃРёСЃС‚РµРјС‹ СЃРµСЃСЃРёР№
+    default: true

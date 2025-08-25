@@ -10,8 +10,8 @@ import net.azuremyst.auth.utils.MessageUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * AzureAuth - РџР»Р°РіРёРЅ Р°РІС‚РѕСЂРёР·Р°С†РёРё РґР»СЏ СЃРµСЂРІРµСЂР° AzureMyst
- * РћР±РµСЃРїРµС‡РёРІР°РµС‚ Р±РµР·РѕРїР°СЃРЅСѓСЋ СЂРµРіРёСЃС‚СЂР°С†РёСЋ Рё Р°РІС‚РѕСЂРёР·Р°С†РёСЋ РёРіСЂРѕРєРѕРІ
+ * AzureAuth - Плагин авторизации для сервера AzureMyst
+ * Обеспечивает безопасную регистрацию и авторизацию игроков
  * 
  * @author AzureMyst Development Team
  * @version 1.0.0
@@ -29,23 +29,23 @@ public class AzureAuth extends JavaPlugin {
     public void onEnable() {
         instance = this;
         
-        // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
+        // Инициализация компонентов
         initializeComponents();
         
-        // Р РµРіРёСЃС‚СЂР°С†РёСЏ РєРѕРјР°РЅРґ
+        // Регистрация команд
         registerCommands();
         
-        // Р РµРіРёСЃС‚СЂР°С†РёСЏ СЃР»СѓС€Р°С‚РµР»РµР№
+        // Регистрация слушателей
         registerListeners();
         
-        getLogger().info("В§a[AzureAuth] РџР»Р°РіРёРЅ СѓСЃРїРµС€РЅРѕ Р·Р°РіСЂСѓР¶РµРЅ!");
-        getLogger().info("В§a[AzureAuth] Р’РµСЂСЃРёСЏ: " + getDescription().getVersion());
-        getLogger().info("В§a[AzureAuth] Р Р°Р·СЂР°Р±РѕС‚Р°РЅРѕ РґР»СЏ СЃРµСЂРІРµСЂР° AzureMyst");
+        getLogger().info("§a[AzureAuth] Плагин успешно загружен!");
+        getLogger().info("§a[AzureAuth] Версия: " + getDescription().getVersion());
+        getLogger().info("§a[AzureAuth] Разработано для сервера AzureMyst");
     }
     
     @Override
     public void onDisable() {
-        // РЎРѕС…СЂР°РЅРµРЅРёРµ РґР°РЅРЅС‹С… РїРµСЂРµРґ РѕС‚РєР»СЋС‡РµРЅРёРµРј
+        // Сохранение данных перед отключением
         if (databaseManager != null) {
             databaseManager.closeConnection();
         }
@@ -54,40 +54,40 @@ public class AzureAuth extends JavaPlugin {
             sessionManager.saveAllSessions();
         }
         
-        getLogger().info("В§c[AzureAuth] РџР»Р°РіРёРЅ РѕС‚РєР»СЋС‡РµРЅ!");
+        getLogger().info("§c[AzureAuth] Плагин отключен!");
     }
     
     /**
-     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РІСЃРµС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ РїР»Р°РіРёРЅР°
+     * Инициализация всех компонентов плагина
      */
     private void initializeComponents() {
         try {
-            // РњРµРЅРµРґР¶РµСЂ РєРѕРЅС„РёРіСѓСЂР°С†РёРё
+            // Менеджер конфигурации
             configManager = new ConfigManager(this);
             configManager.loadConfig();
             
-            // РЈС‚РёР»РёС‚С‹ СЃРѕРѕР±С‰РµРЅРёР№
+            // Утилиты сообщений
             messageUtils = new MessageUtils(this);
             
-            // РњРµРЅРµРґР¶РµСЂ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+            // Менеджер базы данных
             databaseManager = new DatabaseManager(this);
             databaseManager.initialize();
             
-            // РњРµРЅРµРґР¶РµСЂ Р°РІС‚РѕСЂРёР·Р°С†РёРё
+            // Менеджер авторизации
             authManager = new AuthManager(this);
             
-            // РњРµРЅРµРґР¶РµСЂ СЃРµСЃСЃРёР№
+            // Менеджер сессий
             sessionManager = new SessionManager(this);
             
         } catch (Exception e) {
-            getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РєРѕРјРїРѕРЅРµРЅС‚РѕРІ: " + e.getMessage());
+            getLogger().severe("§c[AzureAuth] Ошибка при инициализации компонентов: " + e.getMessage());
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
         }
     }
     
     /**
-     * Р РµРіРёСЃС‚СЂР°С†РёСЏ РєРѕРјР°РЅРґ РїР»Р°РіРёРЅР°
+     * Регистрация команд плагина
      */
     private void registerCommands() {
         AuthCommand authCommand = new AuthCommand(this);
@@ -99,13 +99,13 @@ public class AzureAuth extends JavaPlugin {
     }
     
     /**
-     * Р РµРіРёСЃС‚СЂР°С†РёСЏ СЃР»СѓС€Р°С‚РµР»РµР№ СЃРѕР±С‹С‚РёР№
+     * Регистрация слушателей событий
      */
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     }
     
-    // Р“РµС‚С‚РµСЂС‹ РґР»СЏ РґРѕСЃС‚СѓРїР° Рє РєРѕРјРїРѕРЅРµРЅС‚Р°Рј
+    // Геттеры для доступа к компонентам
     public static AzureAuth getInstance() {
         return instance;
     }
@@ -131,15 +131,15 @@ public class AzureAuth extends JavaPlugin {
     }
     
     /**
-     * РџРµСЂРµР·Р°РіСЂСѓР·РєР° РїР»Р°РіРёРЅР°
+     * Перезагрузка плагина
      */
     public void reloadPlugin() {
         try {
             configManager.loadConfig();
             messageUtils.reloadMessages();
-            getLogger().info("В§a[AzureAuth] РџР»Р°РіРёРЅ СѓСЃРїРµС€РЅРѕ РїРµСЂРµР·Р°РіСЂСѓР¶РµРЅ!");
+            getLogger().info("§a[AzureAuth] Плагин успешно перезагружен!");
         } catch (Exception e) {
-            getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РїРµСЂРµР·Р°РіСЂСѓР·РєРµ: " + e.getMessage());
+            getLogger().severe("§c[AzureAuth] Ошибка при перезагрузке: " + e.getMessage());
         }
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * РњРµРЅРµРґР¶РµСЂ Р±Р°Р·С‹ РґР°РЅРЅС‹С… РґР»СЏ РїР»Р°РіРёРЅР° AzureAuth
+ * Менеджер базы данных для плагина AzureAuth
  */
 public class DatabaseManager {
     
@@ -25,7 +25,7 @@ public class DatabaseManager {
     }
     
     /**
-     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С…
+     * Инициализация подключения к базе данных
      */
     public void initialize() throws SQLException {
         String databaseType = plugin.getConfigManager().getDatabaseType();
@@ -37,11 +37,11 @@ public class DatabaseManager {
         }
         
         createTables();
-        plugin.getLogger().info("В§a[AzureAuth] Р‘Р°Р·Р° РґР°РЅРЅС‹С… СѓСЃРїРµС€РЅРѕ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅР°!");
+        plugin.getLogger().info("§a[AzureAuth] База данных успешно инициализирована!");
     }
     
     /**
-     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ MySQL СЃРѕРµРґРёРЅРµРЅРёСЏ
+     * Инициализация MySQL соединения
      */
     private void initializeMysql() throws SQLException {
         String host = plugin.getConfigManager().getDatabaseHost();
@@ -54,11 +54,11 @@ public class DatabaseManager {
                     "?useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true";
         
         connection = DriverManager.getConnection(url, username, password);
-        plugin.getLogger().info("В§a[AzureAuth] РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє MySQL СѓСЃРїРµС€РЅРѕ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ!");
+        plugin.getLogger().info("§a[AzureAuth] Подключение к MySQL успешно установлено!");
     }
     
     /**
-     * РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ SQLite СЃРѕРµРґРёРЅРµРЅРёСЏ
+     * Инициализация SQLite соединения
      */
     private void initializeSqlite() throws SQLException {
         File dataFolder = plugin.getDataFolder();
@@ -68,14 +68,14 @@ public class DatabaseManager {
         
         String url = "jdbc:sqlite:" + dataFolder.getAbsolutePath() + "/database.db";
         connection = DriverManager.getConnection(url);
-        plugin.getLogger().info("В§a[AzureAuth] РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє SQLite СѓСЃРїРµС€РЅРѕ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ!");
+        plugin.getLogger().info("§a[AzureAuth] Подключение к SQLite успешно установлено!");
     }
     
     /**
-     * РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС† РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С…
+     * Создание таблиц в базе данных
      */
     private void createTables() throws SQLException {
-        // РўР°Р±Р»РёС†Р° РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
+        // Таблица пользователей
         String createUsersTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "users (" +
                 "id INTEGER PRIMARY KEY " + (isMySQL() ? "AUTO_INCREMENT" : "AUTOINCREMENT") + "," +
                 "uuid VARCHAR(36) UNIQUE NOT NULL," +
@@ -91,7 +91,7 @@ public class DatabaseManager {
                 "locked_until TIMESTAMP NULL" +
                 ")";
         
-        // РўР°Р±Р»РёС†Р° СЃРµСЃСЃРёР№
+        // Таблица сессий
         String createSessionsTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "sessions (" +
                 "id INTEGER PRIMARY KEY " + (isMySQL() ? "AUTO_INCREMENT" : "AUTOINCREMENT") + "," +
                 "uuid VARCHAR(36) NOT NULL," +
@@ -102,7 +102,7 @@ public class DatabaseManager {
                 "is_active BOOLEAN DEFAULT TRUE" +
                 ")";
         
-        // РўР°Р±Р»РёС†Р° Р»РѕРіРѕРІ
+        // Таблица логов
         String createLogsTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "logs (" +
                 "id INTEGER PRIMARY KEY " + (isMySQL() ? "AUTO_INCREMENT" : "AUTOINCREMENT") + "," +
                 "uuid VARCHAR(36)," +
@@ -121,7 +121,7 @@ public class DatabaseManager {
     }
     
     /**
-     * Р РµРіРёСЃС‚СЂР°С†РёСЏ РЅРѕРІРѕРіРѕ РёРіСЂРѕРєР°
+     * Регистрация нового игрока
      */
     public boolean registerPlayer(UUID uuid, String username, String password, String ipAddress) {
         String sql = "INSERT INTO " + tablePrefix + "users (uuid, username, password_hash, salt, ip_address) VALUES (?, ?, ?, ?, ?)";
@@ -143,14 +143,14 @@ public class DatabaseManager {
                 return true;
             }
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё СЂРµРіРёСЃС‚СЂР°С†РёРё РёРіСЂРѕРєР°: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при регистрации игрока: " + e.getMessage());
         }
         
         return false;
     }
     
     /**
-     * РџСЂРѕРІРµСЂРєР° РїР°СЂРѕР»СЏ РёРіСЂРѕРєР°
+     * Проверка пароля игрока
      */
     public boolean checkPassword(UUID uuid, String password) {
         String sql = "SELECT password_hash, salt FROM " + tablePrefix + "users WHERE uuid = ?";
@@ -167,14 +167,14 @@ public class DatabaseManager {
                 return storedHash.equals(hashedPassword);
             }
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РїСЂРѕРІРµСЂРєРµ РїР°СЂРѕР»СЏ: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при проверке пароля: " + e.getMessage());
         }
         
         return false;
     }
     
     /**
-     * РџСЂРѕРІРµСЂРєР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ РёРіСЂРѕРєР°
+     * Проверка существования игрока
      */
     public boolean playerExists(UUID uuid) {
         String sql = "SELECT 1 FROM " + tablePrefix + "users WHERE uuid = ?";
@@ -184,14 +184,14 @@ public class DatabaseManager {
             ResultSet rs = stmt.executeQuery();
             return rs.next();
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РїСЂРѕРІРµСЂРєРµ СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ РёРіСЂРѕРєР°: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при проверке существования игрока: " + e.getMessage());
         }
         
         return false;
     }
     
     /**
-     * РћР±РЅРѕРІР»РµРЅРёРµ РІСЂРµРјРµРЅРё РїРѕСЃР»РµРґРЅРµРіРѕ РІС…РѕРґР°
+     * Обновление времени последнего входа
      */
     public void updateLastLogin(UUID uuid, String ipAddress) {
         String sql = "UPDATE " + tablePrefix + "users SET last_login = CURRENT_TIMESTAMP, ip_address = ?, failed_attempts = 0 WHERE uuid = ?";
@@ -201,12 +201,12 @@ public class DatabaseManager {
             stmt.setString(2, uuid.toString());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РѕР±РЅРѕРІР»РµРЅРёРё РІСЂРµРјРµРЅРё РІС…РѕРґР°: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при обновлении времени входа: " + e.getMessage());
         }
     }
     
     /**
-     * РЈРІРµР»РёС‡РµРЅРёРµ СЃС‡РµС‚С‡РёРєР° РЅРµСѓРґР°С‡РЅС‹С… РїРѕРїС‹С‚РѕРє
+     * Увеличение счетчика неудачных попыток
      */
     public void incrementFailedAttempts(UUID uuid) {
         String sql = "UPDATE " + tablePrefix + "users SET failed_attempts = failed_attempts + 1 WHERE uuid = ?";
@@ -215,12 +215,12 @@ public class DatabaseManager {
             stmt.setString(1, uuid.toString());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РѕР±РЅРѕРІР»РµРЅРёРё РЅРµСѓРґР°С‡РЅС‹С… РїРѕРїС‹С‚РѕРє: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при обновлении неудачных попыток: " + e.getMessage());
         }
     }
     
     /**
-     * РџРѕР»СѓС‡РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° РЅРµСѓРґР°С‡РЅС‹С… РїРѕРїС‹С‚РѕРє
+     * Получение количества неудачных попыток
      */
     public int getFailedAttempts(UUID uuid) {
         String sql = "SELECT failed_attempts FROM " + tablePrefix + "users WHERE uuid = ?";
@@ -233,14 +233,14 @@ public class DatabaseManager {
                 return rs.getInt("failed_attempts");
             }
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё РЅРµСѓРґР°С‡РЅС‹С… РїРѕРїС‹С‚РѕРє: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при получении неудачных попыток: " + e.getMessage());
         }
         
         return 0;
     }
     
     /**
-     * РР·РјРµРЅРµРЅРёРµ РїР°СЂРѕР»СЏ
+     * Изменение пароля
      */
     public boolean changePassword(UUID uuid, String newPassword) {
         String sql = "UPDATE " + tablePrefix + "users SET password_hash = ?, salt = ? WHERE uuid = ?";
@@ -255,14 +255,14 @@ public class DatabaseManager {
             
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РёР·РјРµРЅРµРЅРёРё РїР°СЂРѕР»СЏ: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при изменении пароля: " + e.getMessage());
         }
         
         return false;
     }
     
     /**
-     * РЎРѕС…СЂР°РЅРµРЅРёРµ СЃРµСЃСЃРёРё
+     * Сохранение сессии
      */
     public void saveSession(UUID uuid, String ipAddress, String sessionToken, long expirationTime) {
         String sql = "INSERT INTO " + tablePrefix + "sessions (uuid, ip_address, session_token, expires_date) VALUES (?, ?, ?, ?)";
@@ -275,12 +275,12 @@ public class DatabaseManager {
             
             stmt.executeUpdate();
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё СЃРѕС…СЂР°РЅРµРЅРёРё СЃРµСЃСЃРёРё: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при сохранении сессии: " + e.getMessage());
         }
     }
     
     /**
-     * РџСЂРѕРІРµСЂРєР° РІР°Р»РёРґРЅРѕСЃС‚Рё СЃРµСЃСЃРёРё
+     * Проверка валидности сессии
      */
     public boolean isValidSession(UUID uuid, String ipAddress, String sessionToken) {
         String sql = "SELECT 1 FROM " + tablePrefix + "sessions WHERE uuid = ? AND ip_address = ? AND session_token = ? AND expires_date > CURRENT_TIMESTAMP AND is_active = TRUE";
@@ -293,14 +293,14 @@ public class DatabaseManager {
             ResultSet rs = stmt.executeQuery();
             return rs.next();
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РїСЂРѕРІРµСЂРєРµ СЃРµСЃСЃРёРё: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при проверке сессии: " + e.getMessage());
         }
         
         return false;
     }
     
     /**
-     * Р”РµР°РєС‚РёРІР°С†РёСЏ РІСЃРµС… СЃРµСЃСЃРёР№ РёРіСЂРѕРєР°
+     * Деактивация всех сессий игрока
      */
     public void deactivateAllSessions(UUID uuid) {
         String sql = "UPDATE " + tablePrefix + "sessions SET is_active = FALSE WHERE uuid = ?";
@@ -309,12 +309,12 @@ public class DatabaseManager {
             stmt.setString(1, uuid.toString());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РґРµР°РєС‚РёРІР°С†РёРё СЃРµСЃСЃРёР№: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при деактивации сессий: " + e.getMessage());
         }
     }
     
     /**
-     * Р›РѕРіРёСЂРѕРІР°РЅРёРµ РґРµР№СЃС‚РІРёР№
+     * Логирование действий
      */
     public void logAction(UUID uuid, String username, String action, String ipAddress, String details) {
         if (!plugin.getConfigManager().isLoggingEnabled()) {
@@ -332,12 +332,12 @@ public class DatabaseManager {
             
             stmt.executeUpdate();
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё Р»РѕРіРёСЂРѕРІР°РЅРёРё: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при логировании: " + e.getMessage());
         }
     }
     
     /**
-     * РџРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С… РёРіСЂРѕРєР°
+     * Получение данных игрока
      */
     public PlayerData getPlayerData(UUID uuid) {
         String sql = "SELECT * FROM " + tablePrefix + "users WHERE uuid = ?";
@@ -361,14 +361,14 @@ public class DatabaseManager {
                 return data;
             }
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё РґР°РЅРЅС‹С… РёРіСЂРѕРєР°: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при получении данных игрока: " + e.getMessage());
         }
         
         return null;
     }
     
     /**
-     * РћС‡РёСЃС‚РєР° СЃС‚Р°СЂС‹С… СЃРµСЃСЃРёР№
+     * Очистка старых сессий
      */
     public void cleanupExpiredSessions() {
         String sql = "DELETE FROM " + tablePrefix + "sessions WHERE expires_date < CURRENT_TIMESTAMP";
@@ -376,36 +376,36 @@ public class DatabaseManager {
         try (Statement stmt = connection.createStatement()) {
             int deleted = stmt.executeUpdate(sql);
             if (deleted > 0) {
-                plugin.getLogger().info("В§a[AzureAuth] РћС‡РёС‰РµРЅРѕ " + deleted + " СѓСЃС‚Р°СЂРµРІС€РёС… СЃРµСЃСЃРёР№");
+                plugin.getLogger().info("§a[AzureAuth] Очищено " + deleted + " устаревших сессий");
             }
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РѕС‡РёСЃС‚РєРµ СЃРµСЃСЃРёР№: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при очистке сессий: " + e.getMessage());
         }
     }
     
     /**
-     * РџСЂРѕРІРµСЂРєР° С‚РёРїР° Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+     * Проверка типа базы данных
      */
     private boolean isMySQL() {
         return "MYSQL".equalsIgnoreCase(plugin.getConfigManager().getDatabaseType());
     }
     
     /**
-     * Р—Р°РєСЂС‹С‚РёРµ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ Р±Р°Р·РѕР№ РґР°РЅРЅС‹С…
+     * Закрытие соединения с базой данных
      */
     public void closeConnection() {
         if (connection != null) {
             try {
                 connection.close();
-                plugin.getLogger().info("В§a[AzureAuth] РЎРѕРµРґРёРЅРµРЅРёРµ СЃ Р±Р°Р·РѕР№ РґР°РЅРЅС‹С… Р·Р°РєСЂС‹С‚Рѕ");
+                plugin.getLogger().info("§a[AzureAuth] Соединение с базой данных закрыто");
             } catch (SQLException e) {
-                plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё Р·Р°РєСЂС‹С‚РёРё СЃРѕРµРґРёРЅРµРЅРёСЏ: " + e.getMessage());
+                plugin.getLogger().severe("§c[AzureAuth] Ошибка при закрытии соединения: " + e.getMessage());
             }
         }
     }
     
     /**
-     * РџСЂРѕРІРµСЂРєР° Р°РєС‚РёРІРЅРѕСЃС‚Рё СЃРѕРµРґРёРЅРµРЅРёСЏ
+     * Проверка активности соединения
      */
     public boolean isConnectionValid() {
         try {
@@ -416,7 +416,7 @@ public class DatabaseManager {
     }
     
     /**
-     * РџРµСЂРµРїРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С…
+     * Переподключение к базе данных
      */
     public void reconnect() {
         try {
@@ -425,7 +425,7 @@ public class DatabaseManager {
             }
             initialize();
         } catch (SQLException e) {
-            plugin.getLogger().severe("В§c[AzureAuth] РћС€РёР±РєР° РїСЂРё РїРµСЂРµРїРѕРґРєР»СЋС‡РµРЅРёРё Рє Р‘Р”: " + e.getMessage());
+            plugin.getLogger().severe("§c[AzureAuth] Ошибка при переподключении к БД: " + e.getMessage());
         }
     }
 }

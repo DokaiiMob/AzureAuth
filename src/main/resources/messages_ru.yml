@@ -1,0 +1,145 @@
+# ================================================
+# AzureAuth - Русские сообщения
+# Разработано для сервера AzureMyst
+# ================================================
+
+# Основные сообщения авторизации
+login-required: "&cВы должны войти в игру! Используйте: &6/login <пароль>"
+registration-required: "&cВы должны зарегистрироваться! Используйте: &6/register <пароль> [подтвердить_пароль]"
+login-success: "&aВы успешно вошли в игру! Добро пожаловать на &bAzure&3Myst&a!"
+registration-success: "&aРегистрация прошла успешно! Вы автоматически вошли в игру."
+logout-success: "&aВы вышли из аккаунта. До свидания!"
+
+# Ошибки входа
+wrong-password: "&cНеверный пароль! Попыток осталось: &6{0}"
+too-many-attempts: "&cСлишком много неудачных попыток! Вы заблокированы на &6{0} &cсекунд."
+already-logged-in: "&cВы уже авторизованы!"
+not-logged-in: "&cВы не авторизованы!"
+login-timeout: "&cВремя на авторизацию истекло! Переподключитесь к серверу."
+
+# Ошибки регистрации
+already-registered: "&cВы уже зарегистрированы! Используйте: &6/login <пароль>"
+registration-disabled: "&cРегистрация отключена администрацией!"
+password-too-short: "&cПароль слишком короткий! Минимум &6{0} &cсимволов."
+password-too-long: "&cПароль слишком длинный! Максимум &6{0} &cсимволов."
+passwords-dont-match: "&cПароли не совпадают!"
+registration-failed: "&cОшибка регистрации! Обратитесь к администрации."
+
+# Капча
+captcha-required: "&6Введите код капчи: &e{0}"
+captcha-prompt: "&6Напишите в чат код: &e{0}"
+captcha-success: "&aКод капчи верный!"
+captcha-failed: "&cНеверный код капчи! Попробуйте еще раз."
+
+# Смена пароля
+password-changed: "&aПароль успешно изменен!"
+password-change-error: "&cОшибка при смене пароля! Обратитесь к администрации."
+same-password: "&cНовый пароль не может совпадать со старым!"
+
+# Сессии
+session-restored: "&aАвтоматический вход по сохраненной сессии."
+session-expired: "&cВаша сессия истекла. Войдите заново."
+session-created: "&aСессия сохранена для автоматического входа."
+
+# Использование команд
+login-usage: "&cИспользование: &6/login <пароль>"
+register-usage: "&cИспользование: &6/register <пароль> [подтвердить_пароль]"
+changepassword-usage: "&cИспользование: &6/changepassword <старый_пароль> <новый_пароль>"
+
+# Временные сообщения
+time-remaining: "&6Осталось времени на авторизацию: &c{0} сек."
+login-reminder: "&6Не забудьте войти в игру: &e/login <пароль>"
+
+# Ограничения
+action-blocked: "&cЭто действие заблокировано! Войдите в игру: &6/login <пароль>"
+command-blocked: "&cКоманда заблокирована! Доступны только: &6/login, /register"
+chat-blocked: "&cЧат заблокирован до авторизации!"
+movement-blocked: "&cПередвижение заблокировано до авторизации!"
+
+# Boss Bar сообщения
+bossbar-login: "&4Требуется авторизация: /login <пароль>"
+bossbar-register: "&4Требуется регистрация: /register <пароль>"
+bossbar-timeout: "&cВремя на авторизацию: {0} сек."
+
+# Action Bar сообщения  
+actionbar-login: "&6Войдите в игру: &e/login <пароль> &6| Осталось: &c{0}с"
+actionbar-register: "&6Зарегистрируйтесь: &e/register <пароль> &6| Осталось: &c{0}с"
+actionbar-authenticated: "&aВы авторизованы | Добро пожаловать на &bAzure&3Myst&a!"
+
+# Title сообщения
+title-login: "&4Требуется вход"
+title-register: "&4Требуется регистрация"
+subtitle-login: "&6Используйте /login <пароль>"
+subtitle-register: "&6Используйте /register <пароль>"
+
+title-welcome: "&a&lДобро пожаловать!"
+subtitle-welcome: "&6на сервер &bAzure&3Myst"
+
+title-timeout: "&c&lВремя истекло!"
+subtitle-timeout: "&6Переподключитесь к серверу"
+
+# Административные сообщения
+admin-reload: "&aКонфигурация перезагружена!"
+admin-stats: "&6Статистика AzureAuth:"
+admin-no-permission: "&cУ вас недостаточно прав!"
+admin-player-not-found: "&cИгрок &6{0} &cне найден!"
+admin-database-error: "&cОшибка базы данных! Проверьте логи."
+
+# Интеграции
+luckperms-group-assigned: "&aВам назначена группа: &6{0}"
+vault-insufficient-funds: "&cНедостаточно средств для регистрации! Требуется: &6{0}$"
+vault-payment-success: "&aС вашего счета списано &6{0}$ &aза регистрацию."
+
+# IP ограничения
+ip-not-allowed: "&cВаш IP-адрес не в белом списке!"
+max-accounts-per-ip: "&cДостигнут лимит аккаунтов с этого IP-адреса!"
+
+# Безопасность
+suspicious-activity: "&cОбнаружена подозрительная активность! Администрация уведомлена."
+account-locked: "&cВаш аккаунт временно заблокирован из-за подозрительной активности."
+bot-protection: "&cСлишком быстрые действия! Подождите немного."
+
+# Версии клиента
+client-version-not-supported: "&cВерсия вашего клиента не поддерживается! Требуется: &6{0}"
+
+# Подключение к базе данных
+database-connection-lost: "&cСоединение с базой данных потеряно! Обратитесь к администрации."
+database-reconnecting: "&6Переподключение к базе данных..."
+database-reconnected: "&aСоединение с базой данных восстановлено!"
+
+# Помощь
+help-header: "&6===== &bAzure&3Auth &6Помощь ====="
+help-login: "&e/login <пароль> &7- Войти в игру"
+help-register: "&e/register <пароль> [подтвердить] &7- Зарегистрироваться"
+help-logout: "&e/logout &7- Выйти из аккаунта"
+help-changepassword: "&e/changepassword <старый> <новый> &7- Сменить пароль"
+help-footer: "&6Нужна помощь? Обращайтесь к администрации!"
+
+# PlaceholderAPI плейсхолдеры
+placeholder-authenticated: "Авторизован"
+placeholder-not-authenticated: "Не авторизован"
+placeholder-registered: "Зарегистрирован"
+placeholder-not-registered: "Не зарегистрирован"
+placeholder-session-active: "Активна"
+placeholder-no-session: "Неактивна"
+
+# Дополнительные уведомления
+first-join: "&6Добро пожаловать на сервер &bAzure&3Myst&6! Зарегистрируйтесь: &e/register <пароль>"
+returning-player: "&6С возвращением на &bAzure&3Myst&6! Войдите: &e/login <пароль>"
+
+# Ошибки системы
+system-error: "&cПроизошла системная ошибка! Администрация уведомлена."
+maintenance-mode: "&6Система авторизации находится на обслуживании. Подождите..."
+
+# Статистика
+stats-total-users: "&7Всего пользователей: &f{0}"
+stats-online-authenticated: "&7Авторизованных онлайн: &f{0}"
+stats-active-sessions: "&7Активных сессий: &f{0}"
+stats-failed-attempts-today: "&7Неудачных попыток сегодня: &f{0}"
+
+# Логи для администрации
+log-player-registered: "Игрок {0} зарегистрировался с IP: {1}"
+log-player-login: "Игрок {0} вошел в игру с IP: {1}"
+log-failed-login: "Неудачная попытка входа для {0} с IP: {1}"
+log-password-changed: "Игрок {0} сменил пароль с IP: {1}"
+log-suspicious-activity: "Подозрительная активность от {0} (IP: {1}): {2}"

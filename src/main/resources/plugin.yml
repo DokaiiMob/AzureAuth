@@ -12,58 +12,58 @@ prefix: AzureAuth
 
 commands:
   login:
-    description: Р’РѕР№С‚Рё РІ РёРіСЂСѓ РёСЃРїРѕР»СЊР·СѓСЏ РїР°СЂРѕР»СЊ
-    usage: /<command> <РїР°СЂРѕР»СЊ>
-    aliases: [l, РІРѕР№С‚Рё]
+    description: Войти в игру используя пароль
+    usage: /<command> <пароль>
+    aliases: [l, войти]
     
   register:
-    description: Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ РЅРѕРІС‹Р№ Р°РєРєР°СѓРЅС‚
-    usage: /<command> <РїР°СЂРѕР»СЊ> [РїРѕРґС‚РІРµСЂРґРёС‚СЊ_РїР°СЂРѕР»СЊ]
-    aliases: [reg, СЂРµРіРёСЃС‚СЂР°С†РёСЏ]
+    description: Зарегистрировать новый аккаунт
+    usage: /<command> <пароль> [подтвердить_пароль]
+    aliases: [reg, регистрация]
     
   logout:
-    description: Р’С‹Р№С‚Рё РёР· Р°РєРєР°СѓРЅС‚Р°
+    description: Выйти из аккаунта
     usage: /<command>
-    aliases: [РІС‹Р№С‚Рё]
+    aliases: [выйти]
     
   changepassword:
-    description: РР·РјРµРЅРёС‚СЊ РїР°СЂРѕР»СЊ Р°РєРєР°СѓРЅС‚Р°
-    usage: /<command> <СЃС‚Р°СЂС‹Р№_РїР°СЂРѕР»СЊ> <РЅРѕРІС‹Р№_РїР°СЂРѕР»СЊ>
-    aliases: [changepass, СЃРјРµРЅР°, СЃРјРµРЅРёС‚СЊРїР°СЂРѕР»СЊ]
+    description: Изменить пароль аккаунта
+    usage: /<command> <старый_пароль> <новый_пароль>
+    aliases: [changepass, смена, сменитьпароль]
     
   azureauth:
-    description: РђРґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Рµ РєРѕРјР°РЅРґС‹ AzureAuth
-    usage: /<command> [РїРѕРґРєРѕРјР°РЅРґР°]
+    description: Административные команды AzureAuth
+    usage: /<command> [подкоманда]
     permission: azureauth.admin
     aliases: [azauth, aauth]
 
 permissions:
   azureauth.*:
-    description: Р’СЃРµ РїСЂР°РІР° РїР»Р°РіРёРЅР° AzureAuth
+    description: Все права плагина AzureAuth
     children:
       azureauth.admin: true
       azureauth.bypass: true
       
   azureauth.admin:
-    description: РђРґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Рµ РїСЂР°РІР° РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РїР»Р°РіРёРЅРѕРј
+    description: Административные права для управления плагином
     default: op
     
   azureauth.bypass:
-    description: РћР±С…РѕРґРёС‚СЊ Р°РІС‚РѕСЂРёР·Р°С†РёСЋ (РґР»СЏ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂРѕРІ)
+    description: Обходить авторизацию (для администраторов)
     default: false
     
   azureauth.register:
-    description: РџСЂР°РІРѕ РЅР° СЂРµРіРёСЃС‚СЂР°С†РёСЋ (РµСЃР»Рё РѕС‚РєР»СЋС‡РµРЅР° РіР»РѕР±Р°Р»СЊРЅРѕ)
+    description: Право на регистрацию (если отключена глобально)
     default: true
     
   azureauth.login:
-    description: РџСЂР°РІРѕ РЅР° РІС…РѕРґ РІ РёРіСЂСѓ
+    description: Право на вход в игру
     default: true
     
   azureauth.changepassword:
-    description: РџСЂР°РІРѕ РЅР° РёР·РјРµРЅРµРЅРёРµ РїР°СЂРѕР»СЏ
+    description: Право на изменение пароля
     default: true
     
   azureauth.session:
-    description: РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЃРёСЃС‚РµРјС‹ СЃРµСЃСЃРёР№
+    description: Использование системы сессий
     default: true

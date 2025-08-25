@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * РњРµРЅРµРґР¶РµСЂ Р°РІС‚РѕСЂРёР·Р°С†РёРё РёРіСЂРѕРєРѕРІ
+ * Менеджер авторизации игроков
  */
 public class AuthManager {
     
@@ -23,33 +23,33 @@ public class AuthManager {
     }
     
     /**
-     * РџСЂРѕРІРµСЂРєР° Р°РІС‚РѕСЂРёР·Р°С†РёРё РёРіСЂРѕРєР°
+     * Проверка авторизации игрока
      */
     public boolean isAuthenticated(Player player) {
         return authenticatedPlayers.getOrDefault(player.getUniqueId(), false);
     }
     
     /**
-     * РџРѕРїС‹С‚РєР° РІС…РѕРґР° РІ СЃРёСЃС‚РµРјСѓ
+     * Попытка входа в систему
      */
     public void attemptLogin(Player player, String password) {
         UUID uuid = player.getUniqueId();
         
-        // РџСЂРѕРІРµСЂРєР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ РёРіСЂРѕРєР° РІ Р‘Р”
+        // Проверка существования игрока в БД
         if (!plugin.getDatabaseManager().playerExists(uuid)) {
             plugin.getMessageUtils().sendMessage(player, "registration-required");
             return;
         }
         
-        // РџСЂРѕРІРµСЂРєР° РїР°СЂРѕР»СЏ
+        // Проверка пароля
         if (plugin.getDatabaseManager().checkPassword(uuid, password)) {
-            // РЈСЃРїРµС€РЅС‹Р№ РІС…РѕРґ
+            // Успешный вход
             authenticatedPlayers.put(uuid, true);
             plugin.getDatabaseManager().updateLastLogin(uuid, 
                 player.getAddress().getAddress().getHostAddress());
             plugin.getMessageUtils().sendMessage(player, "login-success");
         } else {
-            // РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ
+            // Неверный пароль
             plugin.getDatabaseManager().incrementFailedAttempts(uuid);
             int attempts = plugin.getDatabaseManager().getFailedAttempts(uuid);
             int maxAttempts = plugin.getConfigManager().getMaxLoginAttempts();
@@ -60,7 +60,7 @@ public class AuthManager {
     }
     
     /**
-     * Р РµРіРёСЃС‚СЂР°С†РёСЏ РёРіСЂРѕРєР°
+     * Регистрация игрока
      */
     public void registerPlayer(Player player, String password) {
         UUID uuid = player.getUniqueId();
@@ -76,7 +76,7 @@ public class AuthManager {
     }
     
     /**
-     * Р’С‹С…РѕРґ РёР· СЃРёСЃС‚РµРјС‹
+     * Выход из системы
      */
     public void logout(Player player) {
         authenticatedPlayers.remove(player.getUniqueId());
@@ -84,21 +84,21 @@ public class AuthManager {
     }
     
     /**
-     * РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅР°СЏ Р°РІС‚РѕСЂРёР·Р°С†РёСЏ (РґР»СЏ Р°РґРјРёРЅРѕРІ)
+     * Принудительная авторизация (для админов)
      */
     public void forceLogin(Player player) {
         authenticatedPlayers.put(player.getUniqueId(), true);
     }
     
     /**
-     * РџРѕР»СѓС‡РёС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ Р°РІС‚РѕСЂРёР·РѕРІР°РЅРЅС‹С… РёРіСЂРѕРєРѕРІ
+     * Получить количество авторизованных игроков
      */
     public int getAuthenticatedCount() {
         return authenticatedPlayers.size();
     }
     
     /**
-     * РћС‡РёСЃС‚РєР° РґР°РЅРЅС‹С… РїСЂРё РІС‹С…РѕРґРµ РёРіСЂРѕРєР°
+     * Очистка данных при выходе игрока
      */
     public void cleanupPlayer(UUID uuid) {
         authenticatedPlayers.remove(uuid);
